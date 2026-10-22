@@ -1,0 +1,99 @@
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ROI Calculator · Sentience Growth x Lendio Local</title>
+<link rel="icon" href="favicon-32.png">
+<style>
+:root{--ink:#07111f;--ink2:#09172b;--panel:rgba(11,23,44,.78);--line:rgba(148,163,184,.2);--line2:rgba(148,163,184,.34);--text:#e8eef8;--soft:#c5d3e6;--muted:#94a3b8;--blue:#4f8cff;--blue2:#2563ff;--cyan:#2dd4bf;--sky:#38bdf8;--warm:#f6c85f;--sans:ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;--serif:"Iowan Old Style","Palatino Linotype",Palatino,Georgia,serif}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(1200px 600px at 80% -10%,rgba(37,99,255,.25),transparent),radial-gradient(900px 500px at -10% 30%,rgba(45,212,191,.12),transparent),var(--ink);color:var(--text);font-family:var(--sans);min-height:100vh}
+.wrap{max-width:1240px;margin:0 auto;padding:28px clamp(16px,4vw,40px) 60px}
+header{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:18px}
+header img{height:34px}header a{color:var(--soft);text-decoration:none;font-size:15px;border:1px solid var(--line2);padding:8px 16px;border-radius:999px}
+.eyebrow{color:var(--cyan);letter-spacing:.14em;text-transform:uppercase;font-size:13px;font-weight:700}
+h1{font-size:clamp(30px,4.4vw,52px);margin:8px 0 6px;line-height:1.08}h1 .serif{font-family:var(--serif);font-style:italic;color:var(--sky);font-weight:500}
+.sub{color:var(--soft);font-size:17px;margin:0 0 24px}
+.grid{display:grid;grid-template-columns:minmax(300px,420px) 1fr;gap:22px}@media(max-width:900px){.grid{grid-template-columns:1fr}}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:20px;padding:22px;backdrop-filter:blur(10px)}
+.f{margin-bottom:18px}.f label{display:flex;justify-content:space-between;align-items:baseline;gap:8px;font-size:15px;color:var(--soft);font-weight:600}
+.tag{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:999px;background:rgba(148,163,184,.15);color:var(--muted);white-space:nowrap}
+.tag.set{background:rgba(246,200,95,.16);color:var(--warm)}.tag.his{background:rgba(45,212,191,.16);color:var(--cyan)}
+.row{display:flex;gap:12px;align-items:center;margin-top:8px}
+input[type=range]{flex:1;accent-color:var(--blue);height:28px}
+input[type=number]{width:120px;background:var(--ink2);color:var(--text);border:1px solid var(--line2);border-radius:10px;padding:9px 10px;font-size:18px;font-weight:700;text-align:right}
+.tog{display:flex;border:1px solid var(--line2);border-radius:999px;overflow:hidden;margin-top:8px}.tog button{flex:1;background:none;border:0;color:var(--soft);padding:9px;font-size:14px;font-weight:700;cursor:pointer}.tog button.on{background:var(--blue2);color:#fff}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px}
+.k{background:var(--ink2);border:1px solid var(--line);border-radius:16px;padding:16px 18px}.k .v{font-size:clamp(28px,3.4vw,42px);font-weight:800;letter-spacing:-.02em}.k .l{color:var(--muted);font-size:14px;margin-top:4px}
+.k.hi{background:linear-gradient(135deg,rgba(37,99,255,.35),rgba(45,212,191,.18));border-color:rgba(79,140,255,.6)}.k.hi .v{color:#fff}
+.pos{color:var(--cyan)}.neg{color:#fb7185}
+h3{margin:22px 0 12px;font-size:18px}
+table{width:100%;border-collapse:collapse;font-size:17px}th,td{padding:10px 8px;border-bottom:1px dashed var(--line);text-align:right}th:first-child,td:first-child{text-align:left;color:var(--soft)}th{color:var(--muted);font-size:13px;text-transform:uppercase;letter-spacing:.08em}
+.bars{display:flex;gap:18px;align-items:flex-end;height:170px;margin-top:14px}.bar{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;height:100%;justify-content:flex-end}.bar .pair{display:flex;gap:6px;align-items:flex-end;width:100%;height:130px}.bar .pair i{flex:1;border-radius:6px 6px 2px 2px;transition:height .5s}.bar .r{background:linear-gradient(180deg,var(--cyan),rgba(45,212,191,.3))}.bar .c{background:linear-gradient(180deg,rgba(148,163,184,.7),rgba(148,163,184,.2))}.bar span{font-size:13px;color:var(--muted)}
+.legend{font-size:13px;color:var(--muted);display:flex;gap:16px;margin-top:8px}.legend b{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:6px}
+.note{color:var(--muted);font-size:13px;margin-top:16px;line-height:1.5}
+.warnbox{display:none;margin-top:12px;padding:12px 14px;border-radius:12px;border:1px solid rgba(246,200,95,.5);background:rgba(246,200,95,.08);color:var(--warm);font-size:14px}
+</style></head><body><div class="wrap">
+<header><img src="logo-light.png" alt="Sentience Growth" onerror="this.style.display='none'"><a href="index.html">← Back to overview</a></header>
+<div class="eyebrow">Sentience Growth × Lendio Texas</div>
+<h1>Your numbers, <span class="serif">live.</span></h1>
+<p class="sub">Move the sliders to see what qualified borrower calls are worth to your pipeline.</p>
+<div class="grid">
+<div class="card" id="inputs"></div>
+<div class="card">
+<div class="kpis">
+ <div class="k"><div class="v" id="o_deals">–</div><div class="l">funded deals / month</div></div>
+ <div class="k"><div class="v pos" id="o_rev">–</div><div class="l">revenue / month</div></div>
+ <div class="k"><div class="v" id="o_cost">–</div><div class="l">cost / month</div></div>
+ <div class="k hi"><div class="v" id="o_net">–</div><div class="l">net profit / month</div></div>
+ <div class="k hi"><div class="v" id="o_roi">–</div><div class="l">ROI multiple</div></div>
+ <div class="k"><div class="v" id="o_cpd">–</div><div class="l">cost per funded deal</div></div>
+ <div class="k"><div class="v" id="o_be">–</div><div class="l">funded deals to break even / mo</div></div>
+ <div class="k"><div class="v" id="o_rpd">–</div><div class="l">revenue per funded deal</div></div>
+</div>
+<div class="warnbox" id="warn">Per-call rate not set yet. Enter it on the left to see cost, ROI and break-even.</div>
+<h3>Projection (cumulative, setup fee in month 1)</h3>
+<table><thead><tr><th></th><th>3 months</th><th>6 months</th><th>12 months</th></tr></thead><tbody id="proj"></tbody></table>
+<div class="bars" id="bars"></div>
+<div class="legend"><span><b style="background:var(--cyan)"></b>Revenue</span><span><b style="background:#94a3b8"></b>Cost</span></div>
+<p class="note">Illustration only, not a guarantee of funded deals or revenue. Our guarantee is 10 qualified calls in 30 days; you pay only for qualified calls that show up. "Example" values are placeholders. Swap in your real numbers.</p>
+</div></div></div>
+<script>
+const F=[
+ {id:'calls',label:'Qualified calls / month',min:1,max:50,step:1,v:10,tag:'Our guarantee: 10 in 30 days',cls:'his'},
+ {id:'show',label:'Show rate (calls held)',min:30,max:100,step:1,v:80,suf:'%',tag:'Example'},
+ {id:'close',label:'Close rate (call → funded)',min:1,max:80,step:1,v:30,suf:'%',tag:'Example'},
+ {id:'loan',label:'Average funded loan',min:5000,max:2000000,step:5000,v:150000,pre:'$',tag:'Example'},
+ {id:'comm',label:'Commission on loan',min:0.25,max:10,step:0.25,v:3,suf:'%',tag:'Example',mode:'pct'},
+ {id:'flat',label:'Flat revenue per funded deal',min:250,max:50000,step:250,v:4500,pre:'$',tag:'Example',mode:'flat'},
+ {id:'cpc',label:'Cost per qualified call',min:0,max:1000,step:5,v:0,pre:'$',tag:'Set on call',cls:'set'},
+ {id:'setup',label:'One-time setup fee',min:0,max:5000,step:50,v:0,pre:'$',tag:'Set on call',cls:'set'}];
+let mode='pct';const S={};F.forEach(f=>S[f.id]=f.v);
+const box=document.getElementById('inputs');
+let h='<div class="f"><label>Revenue per funded deal</label><div class="tog"><button data-m="pct" class="on">% of loan</button><button data-m="flat">Flat $</button></div></div>';
+F.forEach(f=>{h+=`<div class="f" id="w_${f.id}"><label><span>${f.label}</span><span class="tag ${f.cls||''}">${f.tag}</span></label><div class="row"><input type="range" id="r_${f.id}" min="${f.min}" max="${f.max}" step="${f.step}" value="${f.v}"><input type="number" id="n_${f.id}" min="0" step="${f.step}" value="${f.v}"></div></div>`});
+box.innerHTML=h;
+F.forEach(f=>{const r=document.getElementById('r_'+f.id),n=document.getElementById('n_'+f.id);
+ r.oninput=()=>{n.value=r.value;S[f.id]=+r.value;calc()};n.oninput=()=>{S[f.id]=+n.value||0;r.value=n.value;calc()}});
+box.querySelectorAll('.tog button').forEach(b=>b.onclick=()=>{mode=b.dataset.m;box.querySelectorAll('.tog button').forEach(x=>x.classList.toggle('on',x===b));vis();calc()});
+function vis(){document.getElementById('w_comm').style.display=mode=='pct'?'':'none';document.getElementById('w_flat').style.display=mode=='flat'?'':'none';document.getElementById('w_loan').style.opacity=mode=='pct'?1:.5}
+const $=n=>'$'+Math.round(n).toLocaleString('en-US');
+const sh=n=>Math.abs(n)>=1e6?'$'+(n/1e6).toFixed(2)+'M':Math.abs(n)>=1e4?'$'+(n/1e3).toFixed(1)+'k':$(n);
+function calc(){
+ const held=S.calls*S.show/100,deals=held*S.close/100;
+ const rpd=mode=='pct'?S.loan*S.comm/100:S.flat;
+ const rev=deals*rpd,cost=S.calls*S.cpc,net=rev-cost,set=S.cpc>0||S.setup>0;
+ const t=(id,v,c)=>{const e=document.getElementById(id);e.textContent=v;if(c!==undefined){e.classList.toggle('neg',c<0);e.classList.toggle('pos',c>=0)}};
+ t('o_deals',deals.toFixed(1));t('o_rev',sh(rev));t('o_rpd',sh(rpd));
+ t('o_cost',S.cpc>0?sh(cost):'—');t('o_net',S.cpc>0?sh(net):'—',net);
+ t('o_roi',cost>0?(rev/cost).toFixed(1)+'×':'—');t('o_cpd',cost>0&&deals>0?sh(cost/deals):'—');
+ t('o_be',cost>0&&rpd>0?(cost/rpd).toFixed(2):'—');
+ document.getElementById('warn').style.display=S.cpc>0?'none':'block';
+ const P=[3,6,12].map(m=>{const R=rev*m,C=cost*m+S.setup;return{m,R,C,N:R-C,D:deals*m}});
+ document.getElementById('proj').innerHTML=
+  `<tr><td>Funded deals</td>${P.map(p=>`<td>${p.D.toFixed(1)}</td>`).join('')}</tr>`+
+  `<tr><td>Revenue</td>${P.map(p=>`<td class="pos">${sh(p.R)}</td>`).join('')}</tr>`+
+  `<tr><td>Cost</td>${P.map(p=>`<td>${set?sh(p.C):'—'}</td>`).join('')}</tr>`+
+  `<tr><td><b>Net profit</b></td>${P.map(p=>`<td><b class="${p.N<0?'neg':'pos'}">${set?sh(p.N):'—'}</b></td>`).join('')}</tr>`;
+ const mx=Math.max(1,...P.map(p=>Math.max(p.R,p.C)));
+ document.getElementById('bars').innerHTML=P.map(p=>`<div class="bar"><div class="pair"><i class="r" style="height:${p.R/mx*100}%"></i><i class="c" style="height:${p.C/mx*100}%"></i></div><span>${p.m} mo</span></div>`).join('');
+}
+vis();calc();
+</script></body></html>
